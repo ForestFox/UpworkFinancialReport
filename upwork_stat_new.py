@@ -1,15 +1,15 @@
 import upwork
 import datetime
 import re
-
+from pprint import pprint
 
 def get_last_week_date_query():
     today = datetime.date.today()
     weekday = today.weekday()
-    last_week_delta = datetime.timedelta(days=weekday, weeks=3)
+    last_week_delta = datetime.timedelta(days=weekday, weeks=1)
     start_of_last_week = today - last_week_delta
     end_of_last_week = start_of_last_week + datetime.timedelta(days=6)
-    return "date >= {} AND date <= {}".format(start_of_last_week.__str__(), end_of_last_week.__str__())
+    return "date >= '{}' AND date <= '{}'".format(start_of_last_week.__str__(), end_of_last_week.__str__())
 
 
 class UpworkFinanceReporter:
@@ -73,4 +73,22 @@ class UpworkFinanceReporter:
             print "Exception at %s %s" % (self.client.last_method, self.client.last_url)
             raise e
 
+    def get_my_info(self):
+        print "My info"
+        pprint(self.client.auth.get_info())
 
+    def get_team_rooms_info(self):
+        print "Team rooms:"
+        pprint(self.client.team.get_teamrooms())
+
+    def get_hr_comp_info(self):
+        print "HR: companies"
+        pprint(self.client.hr.get_companies())
+
+    def get_hr_teams_info(self):
+        print "HR: teams"
+        pprint(self.client.hr.get_teams())
+
+    def get_freelance_offers(self):
+        print "List freelancer's offers"
+        pprint(self.client.offers.list_freelancer_offers())
